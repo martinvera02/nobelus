@@ -1,0 +1,5 @@
+# Finales de línea LF en el repositorio (Windows los convierte al hacer checkout si hace falta)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.woff2 binary

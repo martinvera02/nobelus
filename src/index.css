@@ -1,0 +1,344 @@
+@import 'tailwindcss';
+@import '@xyflow/react/dist/style.css';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --surface-2: #f3f0eb;
+  --hover: #efebe5;
+  --border: #e6e1d9;
+  --fg: #1f1b17;
+  --fg-muted: #6f675e;
+  --fg-subtle: #a39a8f;
+  --accent: #b4532a;
+  --accent-soft: #f6e6dc;
+  --accent-fg: #ffffff;
+  --ring: rgba(180, 83, 42, 0.35);
+  --shadow: 0 1px 2px rgba(31, 27, 23, 0.05), 0 8px 24px -8px rgba(31, 27, 23, 0.12);
+}
+
+.dark {
+  --bg: #131210;
+  --surface: #1b1916;
+  --surface-2: #22201c;
+  --hover: #2a2723;
+  --border: #302c27;
+  --fg: #ece7e0;
+  --fg-muted: #a39b91;
+  --fg-subtle: #6c655d;
+  --accent: #e07a4a;
+  --accent-soft: #3a2519;
+  --accent-fg: #1a0f09;
+  --ring: rgba(224, 122, 74, 0.4);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -8px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-hover: var(--hover);
+  --color-line: var(--border);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --shadow-soft: var(--shadow);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Literata Variable', Georgia, 'Times New Roman', serif;
+}
+
+/* ---------- Base ---------- */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Scrollbars discretas */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* ---------- Componentes reutilizables ---------- */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors select-none disabled:opacity-50 disabled:pointer-events-none;
+}
+@utility btn-primary {
+  @apply btn bg-accent text-accent-fg hover:brightness-110 shadow-sm;
+}
+@utility btn-ghost {
+  @apply btn text-muted hover:bg-hover hover:text-fg;
+}
+@utility btn-outline {
+  @apply btn border border-line bg-surface text-fg hover:bg-hover;
+}
+@utility icon-btn {
+  @apply inline-flex h-7 w-7 items-center justify-center rounded-md text-muted transition-colors hover:bg-hover hover:text-fg;
+}
+@utility input {
+  @apply w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-fg placeholder:text-subtle outline-none transition focus:border-accent focus:ring-2 focus:ring-[var(--ring)];
+}
+@utility card {
+  @apply rounded-xl border border-line bg-surface;
+}
+@utility chip {
+  @apply inline-flex items-center gap-1 rounded-full border border-line bg-surface-2 px-2 py-0.5 text-xs text-muted;
+}
+@utility label {
+  @apply text-[11px] font-semibold uppercase tracking-wider text-subtle;
+}
+
+/* ---------- Editor (TipTap) ---------- */
+.nb-editor .ProseMirror {
+  outline: none;
+  min-height: 60vh;
+}
+
+.nb-editor.wiki .ProseMirror {
+  min-height: 30vh;
+}
+
+.nb-editor .ProseMirror p.is-editor-empty:first-child::before,
+.nb-editor .ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--fg-subtle);
+  pointer-events: none;
+  height: 0;
+}
+
+.nb-manuscript {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  line-height: 1.85;
+  color: var(--fg);
+}
+
+.nb-manuscript p {
+  margin: 0 0 0.9em;
+}
+
+.indent .nb-manuscript p + p {
+  text-indent: 1.6em;
+  margin-top: -0.6em;
+}
+
+.nb-manuscript h1,
+.nb-manuscript h2,
+.nb-manuscript h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.6em 0 0.6em;
+}
+.nb-manuscript h1 { font-size: 1.9em; }
+.nb-manuscript h2 { font-size: 1.45em; }
+.nb-manuscript h3 { font-size: 1.2em; }
+
+.nb-manuscript blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1em;
+  color: var(--fg-muted);
+  font-style: italic;
+  margin: 1em 0;
+}
+
+.nb-manuscript ul,
+.nb-manuscript ol {
+  padding-left: 1.4em;
+  margin: 0 0 0.9em;
+}
+.nb-manuscript ul { list-style: disc; }
+.nb-manuscript ol { list-style: decimal; }
+
+.nb-manuscript hr {
+  border: none;
+  text-align: center;
+  margin: 2em 0;
+}
+.nb-manuscript hr::after {
+  content: '⁂';
+  color: var(--fg-subtle);
+  font-size: 1.1em;
+  letter-spacing: 0.4em;
+}
+.nb-manuscript hr.ProseMirror-selectednode::after {
+  color: var(--accent);
+}
+
+.nb-manuscript mark {
+  background: color-mix(in srgb, #f5c542 45%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.nb-manuscript a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.nb-manuscript code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+  background: var(--surface-2);
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+}
+
+/* Wiki: tipografía más compacta */
+.nb-editor.wiki .nb-manuscript {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+.nb-editor.wiki .nb-manuscript h1,
+.nb-editor.wiki .nb-manuscript h2,
+.nb-editor.wiki .nb-manuscript h3 {
+  font-family: var(--font-sans);
+}
+
+/* Menciones a la wiki */
+.nb-mention {
+  border-radius: 5px;
+  padding: 0 3px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  box-decoration-break: clone;
+}
+.nb-mention:hover {
+  filter: brightness(1.08);
+}
+
+/* Modo enfoque: atenúa los párrafos que no tienen el cursor */
+.focus-mode .nb-manuscript > *:not(.has-focus) {
+  opacity: 0.32;
+  transition: opacity 0.25s ease;
+}
+.focus-mode .nb-manuscript > .has-focus {
+  opacity: 1;
+}
+
+/* ---------- React Flow ---------- */
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-edge-stroke: var(--fg-subtle);
+  --xy-controls-button-background-color: var(--surface);
+  --xy-controls-button-background-color-hover: var(--hover);
+  --xy-controls-button-color: var(--fg);
+  --xy-controls-button-border-color: var(--border);
+  --xy-minimap-background-color: var(--surface);
+  --xy-attribution-background-color: transparent;
+}
+.react-flow__controls {
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.react-flow__minimap {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* ---------- cmdk ---------- */
+[cmdk-item][data-selected='true'] {
+  background: var(--hover);
+  color: var(--fg);
+}
+[cmdk-group-heading] {
+  padding: 8px 10px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+/* ---------- Utilidades ---------- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+.fade-in {
+  animation: fade-in 0.25s ease both;
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.typing-dot {
+  animation: blink 1.2s infinite ease-in-out both;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+/* Tipografía de las respuestas del asesor */
+.prose {
+  --tw-prose-body: var(--fg);
+  --tw-prose-headings: var(--fg);
+  --tw-prose-bold: var(--fg);
+  --tw-prose-bullets: var(--fg-subtle);
+  --tw-prose-counters: var(--fg-muted);
+  --tw-prose-quotes: var(--fg-muted);
+  --tw-prose-quote-borders: var(--accent);
+  --tw-prose-code: var(--fg);
+  --tw-prose-hr: var(--border);
+  --tw-prose-links: var(--accent);
+  --tw-prose-invert-body: var(--fg);
+  --tw-prose-invert-headings: var(--fg);
+  --tw-prose-invert-bold: var(--fg);
+  --tw-prose-invert-bullets: var(--fg-subtle);
+  --tw-prose-invert-counters: var(--fg-muted);
+  --tw-prose-invert-quotes: var(--fg-muted);
+  --tw-prose-invert-code: var(--fg);
+  --tw-prose-invert-hr: var(--border);
+  --tw-prose-invert-links: var(--accent);
+}
+.prose blockquote p:first-of-type::before,
+.prose blockquote p:last-of-type::after {
+  content: none;
+}
+
+/* Pantallas pequeñas: texto del manuscrito algo más compacto */
+@media (max-width: 640px) {
+  .nb-manuscript {
+    font-size: 1.06rem;
+    line-height: 1.75;
+  }
+}
